@@ -3,10 +3,10 @@ import 'constants.dart';
 
 
 class IconContent extends StatelessWidget {
-  IconContent({this.icon, this.text});
+  IconContent({this.icon, this.color});
 
   final IconData icon;
-  final String text;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +16,11 @@ class IconContent extends StatelessWidget {
         Icon(
           icon,
           size: 80.0,
+          color: color,
         ),
         SizedBox(
           height: 15.0,
         ),
-        Text(
-          text,
-          style: kLabelTextStyle,
-        )
       ],
     );
   }

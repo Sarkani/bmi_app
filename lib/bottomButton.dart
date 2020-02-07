@@ -3,10 +3,11 @@ import 'constants.dart';
 
 class BottomButton extends StatelessWidget {
 
-  BottomButton({@required this.onTap, @required this.buttonText});
+  BottomButton({@required this.onTap, @required this.buttonText, this.color});
 
   final Function onTap;
   final String buttonText;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class BottomButton extends StatelessWidget {
               buttonText,
               style: kLargeButton,
             )),
-        color: kBottomContainerColor,
+        color: color,
         margin: EdgeInsets.only(top: 10.0),
         padding: EdgeInsets.only(bottom: 15.0),
         width: double.infinity,

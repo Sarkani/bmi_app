@@ -7,6 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
 import 'bottomButton.dart';
 
+import 'package:gradient_app_bar/gradient_app_bar.dart';
+
 enum Gender {
   male,
   female,
@@ -18,7 +20,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Gender selectedGender;
+  Gender selectedGender = Gender.female;
   int height = 180;
   int weight = 60;
   int age = 18;
@@ -26,30 +28,34 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('BMI CALCULATOR'),
+      appBar: GradientAppBar(
+        gradient: LinearGradient(colors: [
+          selectedGender == Gender.female
+              ? Color(0xFFF1699B)
+              : Color(0xFF2E86D1),
+          selectedGender == Gender.female
+              ? Color(0xFFF0ABCE)
+              : Color(0xFF46B5E1),
+        ]),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Container(
+            child: Center(
+              child: Text(
+                'BMI Calculator',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.purple,
+                ),
+              ),
+            ),
+            width: double.infinity,
+          ),
           Expanded(
             child: Row(
               children: <Widget>[
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.male;
-                      });
-                    },
-                    child: ReusableCard(
-                      color: selectedGender == Gender.male
-                          ? kActiveCardColor
-                          : kInactiveCardColor,
-                      cardChild: IconContent(
-                          icon: FontAwesomeIcons.mars, text: 'MALE'),
-                    ),
-                  ),
-                ),
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -58,11 +64,45 @@ class _InputPageState extends State<InputPage> {
                       });
                     },
                     child: ReusableCard(
-                      color: selectedGender == Gender.female
-                          ? kActiveCardColor
-                          : kInactiveCardColor,
+//                      color: selectedGender == Gender.female
+//                          ? kActiveCardColor
+//                          : kInactiveCardColor,
+                      color: Colors.white,
                       cardChild: IconContent(
-                          icon: FontAwesomeIcons.venus, text: 'FEMALE'),
+                        icon: FontAwesomeIcons.female,
+                        color: selectedGender == Gender.female
+                            ? Color(0xFFF1699B)
+                            : Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                    child: Text(
+                  'or',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 35.0,
+                  ),
+                )),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedGender = Gender.male;
+                      });
+                    },
+                    child: ReusableCard(
+//                      color: selectedGender == Gender.male
+//                          ? kActiveCardColor
+//                          : kInactiveCardColor,
+                      color: Colors.white,
+                      cardChild: IconContent(
+                        icon: FontAwesomeIcons.male,
+                        color: selectedGender == Gender.male
+                            ? Color(0xFF2E86D1)
+                            : Colors.grey,
+                      ),
                     ),
                   ),
                 ),
@@ -219,6 +259,9 @@ class _InputPageState extends State<InputPage> {
           )),
           BottomButton(
             buttonText: 'CALCULATE',
+            color: selectedGender == Gender.female
+                ? Color(0xFFF1699B)
+                : Color(0xFF2E86D1),
             onTap: () {
               CalculatorBrain calc =
                   CalculatorBrain(height: height, weight: weight);
@@ -226,7 +269,6 @@ class _InputPageState extends State<InputPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ResultsPage(
-
                     bmiNumber: calc.calculateBMI(),
                     result: calc.getResult(),
                     bodyText: calc.getInterpretation(),
